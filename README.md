@@ -4,69 +4,69 @@
 ![WordPress](https://img.shields.io/badge/WordPress-6.8%2B-21759b)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb3)
 
-Plugin WordPress yang mendaftarkan *abilities* untuk manajemen blog post melalui [WordPress MCP Adapter](https://github.com/WordPress/mcp-adapter). AI agent seperti **Claude** bisa membuat, mengedit, melihat daftar, dan menghapus post langsung — tanpa perlu buka WP-Admin.
+A WordPress plugin that registers blog post *abilities* for use with the [WordPress MCP Adapter](https://github.com/WordPress/mcp-adapter). AI agents like **Claude** can create, edit, list, and delete posts directly — no WP Admin needed.
 
 ---
 
-## Demo Singkat
+## How It Works
 
 ```
-Claude Code  →  mcp-adapter-execute-ability  →  WordPress REST API  →  Post tersimpan
+Claude Code  →  mcp-adapter-execute-ability  →  WordPress REST API  →  Post saved
 ```
 
-Setelah plugin ini aktif, kalian bisa ngomong ke Claude:
+Once the plugin is active, you can tell Claude:
 
-> *"Buatkan draft post berjudul 'Tips DevOps 2025' dengan konten berikut..."*
+> *"Create a draft post titled 'My DevOps Tips' with the following content..."*
 
-Dan Claude langsung posting ke WordPress kalian. _Boom._
+And Claude will post it directly to your WordPress site.
 
 ---
 
-## Persyaratan
+## Requirements
 
-| Komponen | Versi |
+| Component | Version |
 |---|---|
-| WordPress | 6.8+ (6.9+ direkomendasikan) |
+| WordPress | 6.8+ (6.9+ recommended) |
 | PHP | 7.4+ |
-| Plugin [MCP Adapter](https://github.com/WordPress/mcp-adapter) | Terinstall & aktif |
-| Plugin [Abilities API](https://github.com/WordPress/abilities-api) | Hanya untuk WP 6.8 |
+| [MCP Adapter](https://github.com/WordPress/mcp-adapter) plugin | Installed & active |
+| [Abilities API](https://github.com/WordPress/abilities-api) plugin | Only needed for WP 6.8 |
 
-> Di WordPress 6.9+, Abilities API sudah built-in — tidak perlu plugin tambahan.
+> On WordPress 6.9+, the Abilities API is built-in — no extra plugin required.
 
 ---
 
-## Instalasi
+## Installation
 
-### Opsi 1: Download ZIP (Shared Hosting / cPanel)
+### Option 1: Download ZIP (Shared Hosting / cPanel)
 
-1. Klik tombol **Code → Download ZIP** di halaman repo ini
-2. Login ke **WP Admin → Plugins → Add New → Upload Plugin**
-3. Upload file ZIP → **Install Now** → **Activate**
+1. Click **Code → Download ZIP** on this repo page
+2. Go to **WP Admin → Plugins → Add New → Upload Plugin**
+3. Upload the ZIP → **Install Now** → **Activate**
 
-### Opsi 2: Clone via Git (VPS / SSH)
+### Option 2: Clone via Git (VPS / SSH)
 
 ```bash
 cd /var/www/html/wp-content/plugins
-git clone https://github.com/YOUR_USERNAME/wp-blog-abilities.git
+git clone https://github.com/afatyoo/wp-blog-abilities.git
 ```
 
-Aktifkan di **WP Admin → Plugins → Blog Abilities for MCP → Activate**.
+Then activate it at **WP Admin → Plugins → Blog Abilities for MCP → Activate**.
 
 ---
 
-## Setup Claude Code
+## Claude Code Setup
 
-### Langkah 1 — Buat Application Password di WordPress
+### Step 1 — Create an Application Password in WordPress
 
-1. Login WP Admin → **Users → Profile**
-2. Scroll ke bagian **Application Passwords**
-3. Isi nama aplikasi (contoh: `Claude MCP`) → klik **Add New Application Password**
-4. **Salin password yang muncul** — format: `xxxx xxxx xxxx xxxx xxxx xxxx`
-   > Password hanya muncul sekali. Simpan baik-baik.
+1. Go to **WP Admin → Users → Profile**
+2. Scroll to the **Application Passwords** section
+3. Enter a name (e.g. `Claude MCP`) → click **Add New Application Password**
+4. **Copy the generated password** — format: `xxxx xxxx xxxx xxxx xxxx xxxx`
+   > The password is only shown once. Save it somewhere safe.
 
-### Langkah 2 — Buat file `.mcp.json` di project Claude Code
+### Step 2 — Create `.mcp.json` in your Claude Code project
 
-Buat file `.mcp.json` di root folder project kalian:
+Create a `.mcp.json` file at the root of your Claude Code project:
 
 ```json
 {
@@ -84,136 +84,118 @@ Buat file `.mcp.json` di root folder project kalian:
 }
 ```
 
-Ganti:
-- `yourdomain.com` → domain WordPress kalian
-- `your-wordpress-username` → username WordPress kalian
-- `xxxx xxxx xxxx xxxx xxxx xxxx` → Application Password yang baru dibuat
+Replace:
+- `yourdomain.com` → your WordPress domain
+- `your-wordpress-username` → your WordPress username
+- `xxxx xxxx xxxx xxxx xxxx xxxx` → the Application Password you just created
 
-### Langkah 3 — Restart Claude Code
+### Step 3 — Restart Claude Code
 
-> **Penting:** Perubahan `.mcp.json` memerlukan **restart penuh** Claude Code (quit aplikasi, bukan sekadar `/exit`). Setelah dibuka kembali, MCP server akan otomatis terkoneksi.
+> **Important:** Changes to `.mcp.json` require a **full restart** of Claude Code (quit the app, not just `/exit`). After reopening, the MCP server will connect automatically.
 
-### Langkah 4 — Test Koneksi
+### Step 4 — Test the Connection
 
-Di Claude Code, minta Claude untuk:
+Ask Claude:
 
 ```
-List semua draft post di blog saya
+List all draft posts on my blog
 ```
 
-Kalau berhasil, Claude akan menampilkan daftar post dari WordPress kalian.
+If it works, Claude will return a list of posts from your WordPress site.
 
 ---
 
-## Abilities yang Tersedia
+## Available Abilities
 
-Semua ability didaftarkan dengan `meta.mcp.public = true` sehingga otomatis terdeteksi MCP Adapter.
+All abilities are registered with `meta.mcp.public = true` so they are automatically discovered by the MCP Adapter.
 
 ### `blog/create-post`
-Membuat post baru.
+Create a new post.
 
-| Parameter | Tipe | Wajib | Keterangan |
+| Parameter | Type | Required | Description |
 |---|---|---|---|
-| `title` | string | ✅ | Judul post |
-| `content` | string | ✅ | Konten HTML atau plain text |
+| `title` | string | ✅ | Post title |
+| `content` | string | ✅ | Post content (HTML or plain text) |
 | `status` | string | — | `publish`, `draft`, `pending` (default: `draft`) |
-| `excerpt` | string | — | Ringkasan singkat |
+| `excerpt` | string | — | Short excerpt |
 | `tags` | array of string | — | Tag names |
-| `categories` | array of string | — | Category names (dibuat otomatis jika belum ada) |
+| `categories` | array of string | — | Category names (auto-created if they don't exist) |
 
 **Permission:** `publish_posts`
 
 ---
 
 ### `blog/update-post`
-Mengupdate post yang sudah ada.
+Update an existing post.
 
-| Parameter | Tipe | Wajib | Keterangan |
+| Parameter | Type | Required | Description |
 |---|---|---|---|
-| `id` | integer | ✅ | ID post yang akan diupdate |
-| `title` | string | — | Judul baru |
-| `content` | string | — | Konten baru |
+| `id` | integer | ✅ | Post ID to update |
+| `title` | string | — | New title |
+| `content` | string | — | New content |
 | `status` | string | — | `publish`, `draft`, `pending`, `trash` |
-| `excerpt` | string | — | Excerpt baru |
+| `excerpt` | string | — | New excerpt |
 
 **Permission:** `edit_posts`
 
 ---
 
 ### `blog/list-posts`
-Mengambil daftar post dengan filter opsional.
+Retrieve a list of posts with optional filters.
 
-| Parameter | Tipe | Wajib | Keterangan |
+| Parameter | Type | Required | Description |
 |---|---|---|---|
 | `status` | string | — | `publish`, `draft`, `pending`, `any` (default: `any`) |
-| `numberposts` | integer | — | Jumlah post (default: 10, maks: 100) |
-| `search` | string | — | Keyword pencarian |
+| `numberposts` | integer | — | Number of posts (default: 10, max: 100) |
+| `search` | string | — | Keyword search |
 
 **Permission:** `edit_posts`
 
 ---
 
 ### `blog/delete-post`
-Memindahkan post ke trash atau menghapus permanen.
+Move a post to trash or permanently delete it.
 
-| Parameter | Tipe | Wajib | Keterangan |
+| Parameter | Type | Required | Description |
 |---|---|---|---|
-| `id` | integer | ✅ | ID post yang akan dihapus |
-| `force` | boolean | — | `true` = hapus permanen, `false` = pindah ke trash (default: `false`) |
+| `id` | integer | ✅ | Post ID to delete |
+| `force` | boolean | — | `true` = permanent delete, `false` = move to trash (default: `false`) |
 
 **Permission:** `delete_posts`
 
 ---
 
-## Cara Kerja (Teknis)
-
-```
-Claude Code
-    │
-    ├─ mcp-adapter-discover-abilities  →  dapat daftar: blog/create-post, dll
-    │
-    ├─ mcp-adapter-execute-ability
-    │       ability_name: "blog/create-post"
-    │       parameters: { title, content, status, ... }
-    │
-    └─ WordPress REST API  →  post tersimpan di database
-```
-
-MCP Endpoint: `https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server`
-
----
-
-## Catatan Pengembangan
-
-### Hook yang Digunakan
-- `wp_abilities_api_categories_init` — registrasi kategori ability (`content`)
-- `wp_abilities_api_init` — registrasi semua ability
-
-> ⚠️ Kategori **harus** didaftarkan di `wp_abilities_api_categories_init`, bukan di `wp_abilities_api_init`. Salah hook → notice error (meski ability tetap terdaftar).
-
-### Keamanan
-- Semua input disanitasi: `sanitize_text_field()`, `wp_kses_post()` untuk konten HTML
-- Permission callback ketat sesuai kapabilitas WordPress standar
-- Tidak ada endpoint publik — semua melalui autentikasi WordPress (Application Password)
-
----
-
 ## Troubleshooting
 
-**MCP tidak terdeteksi setelah update `.mcp.json`**
-→ Quit Claude Code sepenuhnya (bukan `/exit`), buka ulang.
+**MCP not detected after updating `.mcp.json`**
+→ Fully quit Claude Code (not just `/exit`), then reopen.
 
-**Error: `wp_register_ability_category` notice**
-→ Pastikan kategori didaftarkan di hook `wp_abilities_api_categories_init`, bukan `wp_abilities_api_init`.
+**Notice error on `wp_register_ability_category`**
+→ Make sure category registration uses the `wp_abilities_api_categories_init` hook, not `wp_abilities_api_init`.
 
-**Abilities tidak muncul saat discover**
-→ Cek apakah MCP Adapter plugin sudah aktif. Cek juga `meta.mcp.public = true` ada di setiap ability.
+**Abilities not showing up on discover**
+→ Verify the MCP Adapter plugin is active. Check that `meta.mcp.public = true` is set on each ability.
 
 **Authentication failed**
-→ Pastikan Application Password digunakan (bukan password login biasa). Format password: `xxxx xxxx xxxx xxxx xxxx xxxx` (dengan spasi).
+→ Use an Application Password, not your regular login password. The format includes spaces: `xxxx xxxx xxxx xxxx xxxx xxxx`.
 
 ---
 
-## Lisensi
+## Development Notes
 
-[GPL-2.0-or-later](LICENSE)
+### Hooks Used
+- `wp_abilities_api_categories_init` — register the ability category (`content`)
+- `wp_abilities_api_init` — register all abilities
+
+> ⚠️ The category **must** be registered on `wp_abilities_api_categories_init`, not `wp_abilities_api_init`. Wrong hook causes a notice error even if the ability still registers.
+
+### Security
+- All input is sanitized: `sanitize_text_field()`, `wp_kses_post()` for HTML content
+- Strict permission callbacks using standard WordPress capabilities
+- No public endpoints — all access requires WordPress authentication (Application Password)
+
+---
+
+## License
+
+GPL-2.0-or-later
