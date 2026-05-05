@@ -12,6 +12,5 @@ Thumbs.db
 *.log
 
 # Build artifacts
-*.zip
 /vendor/
 /node_modules/
