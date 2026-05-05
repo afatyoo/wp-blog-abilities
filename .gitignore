@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# WordPress
+*.log
+
+# Build artifacts
+*.zip
+/vendor/
+/node_modules/
