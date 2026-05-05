@@ -37,20 +37,32 @@ And Claude will post it directly to your WordPress site.
 
 ## Installation
 
-### Option 1: Download ZIP (Shared Hosting / cPanel)
+This plugin requires **two plugins** to be installed on your WordPress site.
 
-1. Click **Code → Download ZIP** on this repo page
-2. Go to **WP Admin → Plugins → Add New → Upload Plugin**
-3. Upload the ZIP → **Install Now** → **Activate**
+### Step 1 — Download both ZIPs from the [Releases page](https://github.com/afatyoo/wp-blog-abilities/releases/latest)
 
-### Option 2: Clone via Git (VPS / SSH)
+| File | Description |
+|---|---|
+| `mcp-adapter.zip` | WordPress MCP Adapter — bridges MCP protocol to WordPress REST API |
+| `wp-blog-abilities.zip` | This plugin — registers blog post abilities for Claude |
+
+### Step 2 — Install both plugins via WP Admin
+
+For each ZIP file:
+1. Go to **WP Admin → Plugins → Add New → Upload Plugin**
+2. Upload the ZIP → **Install Now** → **Activate**
+
+Install `mcp-adapter.zip` first, then `wp-blog-abilities.zip`.
+
+### Option B: Clone via Git (VPS / SSH)
 
 ```bash
 cd /var/www/html/wp-content/plugins
+git clone https://github.com/WordPress/mcp-adapter.git
 git clone https://github.com/afatyoo/wp-blog-abilities.git
 ```
 
-Then activate it at **WP Admin → Plugins → Blog Abilities for MCP → Activate**.
+Activate both plugins at **WP Admin → Plugins**.
 
 ---
 
