@@ -1,6 +1,6 @@
 # wp-blog-abilities
 
-![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue)
+![License](https://img.shields.io/badge/license-MIT-blue)
 ![WordPress](https://img.shields.io/badge/WordPress-6.8%2B-21759b)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb3)
 
@@ -210,4 +210,4 @@ Move a post to trash or permanently delete it.
 
 ## License
 
-GPL-2.0-or-later
+[MIT License](https://github.com/afatyoo/wp-blog-abilities/blob/main/LICENSE)
