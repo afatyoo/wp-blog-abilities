@@ -208,6 +208,101 @@ Move a post to trash or permanently delete it.
 
 ---
 
+## Using with Other MCP Clients
+
+This plugin works with any MCP client (OpenClaw, Nemoclaw, Hermes, etc.). The configuration format varies slightly by client.
+
+### OpenClaw
+
+OpenClaw reads MCP servers from a config file (usually `~/.config/openclaw/config.json` or project-local):
+
+```json
+{
+  "mcpServers": {
+    "wordpress": {
+      "command": "npx",
+      "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
+      "env": {
+        "WP_API_URL": "https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server",
+        "WP_API_USERNAME": "your-username",
+        "WP_API_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx"
+      }
+    }
+  }
+}
+```
+
+For manual input, some clients may accept `WP_API_PASSWORD` without spaces (remove spaces before entering).
+
+**Docs:** [docs.openclaw.ai/cli/mcp](https://docs.openclaw.ai/cli/mcp)
+
+---
+
+### Nemoclaw
+
+Nemoclaw typically uses `nemoclaw.json` or `.nemoclawrc`:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "wordpress": {
+        "type": "stdio",
+        "command": "npx",
+        "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
+        "env": {
+          "WP_API_URL": "https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server",
+          "WP_API_USERNAME": "your-username",
+          "WP_API_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx"
+        }
+      }
+    }
+  }
+}
+```
+
+Run with `nemoclaw --config ./nemoclaw.json`.
+
+---
+
+### Hermes (silicao)
+
+Hermes agent uses `hermes.config.json`:
+
+```json
+{
+  "mcp": {
+    "servers": {
+      "wordpress": {
+        "transport": "stdio",
+        "command": "npx",
+        "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
+        "env": {
+          "WP_API_URL": "https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server",
+          "WP_API_USERNAME": "your-username",
+          "WP_API_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+### SSE/HTTP Endpoint (for custom clients)
+
+If your agent supports SSE/HTTP MCP transport, point it directly to the endpoint:
+
+```
+https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server
+```
+
+Add `Authorization: Basic` header (base64 of `username:password`).  
+Note: Remove spaces from the Application Password when encoding.
+
+---
+
 ## License
 
 [MIT License](https://github.com/afatyoo/wp-blog-abilities/blob/main/LICENSE)
