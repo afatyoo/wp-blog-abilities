@@ -4,7 +4,7 @@
 ![WordPress](https://img.shields.io/badge/WordPress-6.8%2B-21759b)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb3)
 
-A WordPress plugin that registers blog post *abilities* for use with the [WordPress MCP Adapter](https://github.com/WordPress/mcp-adapter). AI agents like **Claude** can create, edit, list, and delete posts directly — no WP Admin needed.
+A WordPress plugin that registers blog post *abilities* for use with the [WordPress MCP Adapter](https://github.com/WordPress/mcp-adapter). AI agents like **Claude** can create, edit, list, and delete posts directly  no WP Admin needed.
 
 ---
 
@@ -31,7 +31,7 @@ And Claude will post it directly to your WordPress site.
 | [MCP Adapter](https://github.com/WordPress/mcp-adapter) plugin | Installed & active |
 | [Abilities API](https://github.com/WordPress/abilities-api) plugin | Only needed for WP 6.8 |
 
-> On WordPress 6.9+, the Abilities API is built-in — no extra plugin required.
+> On WordPress 6.9+, the Abilities API is built-in  no extra plugin required.
 
 ---
 
@@ -39,14 +39,14 @@ And Claude will post it directly to your WordPress site.
 
 This plugin requires **two plugins** to be installed on your WordPress site.
 
-### Step 1 — Download both ZIPs from the [Releases page](https://github.com/afatyoo/wp-blog-abilities/releases/latest)
+### Step 1  Download both ZIPs from the [Releases page](https://github.com/afatyoo/wp-blog-abilities/releases/latest)
 
 | File | Description |
 |---|---|
-| `mcp-adapter.zip` | WordPress MCP Adapter — bridges MCP protocol to WordPress REST API |
-| `wp-blog-abilities.zip` | This plugin — registers blog post abilities for Claude |
+| `mcp-adapter.zip` | WordPress MCP Adapter  bridges MCP protocol to WordPress REST API |
+| `wp-blog-abilities.zip` | This plugin  registers blog post abilities for Claude |
 
-### Step 2 — Install both plugins via WP Admin
+### Step 2  Install both plugins via WP Admin
 
 For each ZIP file:
 1. Go to **WP Admin → Plugins → Add New → Upload Plugin**
@@ -68,15 +68,15 @@ Activate both plugins at **WP Admin → Plugins**.
 
 ## Claude Code Setup
 
-### Step 1 — Create an Application Password in WordPress
+### Step 1  Create an Application Password in WordPress
 
 1. Go to **WP Admin → Users → Profile**
 2. Scroll to the **Application Passwords** section
 3. Enter a name (e.g. `Claude MCP`) → click **Add New Application Password**
-4. **Copy the generated password** — format: `xxxx xxxx xxxx xxxx xxxx xxxx`
+4. **Copy the generated password**  format: `xxxx xxxx xxxx xxxx xxxx xxxx`
    > The password is only shown once. Save it somewhere safe.
 
-### Step 2 — Create `.mcp.json` in your Claude Code project
+### Step 2  Create `.mcp.json` in your Claude Code project
 
 Create a `.mcp.json` file at the root of your Claude Code project:
 
@@ -101,11 +101,11 @@ Replace:
 - `your-wordpress-username` → your WordPress username
 - `xxxx xxxx xxxx xxxx xxxx xxxx` → the Application Password you just created
 
-### Step 3 — Restart Claude Code
+### Step 3  Restart Claude Code
 
 > **Important:** Changes to `.mcp.json` require a **full restart** of Claude Code (quit the app, not just `/exit`). After reopening, the MCP server will connect automatically.
 
-### Step 4 — Test the Connection
+### Step 4  Test the Connection
 
 Ask Claude:
 
@@ -128,10 +128,10 @@ Create a new post.
 |---|---|---|---|
 | `title` | string | ✅ | Post title |
 | `content` | string | ✅ | Post content (HTML or plain text) |
-| `status` | string | — | `publish`, `draft`, `pending` (default: `draft`) |
-| `excerpt` | string | — | Short excerpt |
-| `tags` | array of string | — | Tag names |
-| `categories` | array of string | — | Category names (auto-created if they don't exist) |
+| `status` | string |  | `publish`, `draft`, `pending` (default: `draft`) |
+| `excerpt` | string |  | Short excerpt |
+| `tags` | array of string |  | Tag names |
+| `categories` | array of string |  | Category names (auto-created if they don't exist) |
 
 **Permission:** `publish_posts`
 
@@ -143,10 +143,10 @@ Update an existing post.
 | Parameter | Type | Required | Description |
 |---|---|---|---|
 | `id` | integer | ✅ | Post ID to update |
-| `title` | string | — | New title |
-| `content` | string | — | New content |
-| `status` | string | — | `publish`, `draft`, `pending`, `trash` |
-| `excerpt` | string | — | New excerpt |
+| `title` | string |  | New title |
+| `content` | string |  | New content |
+| `status` | string |  | `publish`, `draft`, `pending`, `trash` |
+| `excerpt` | string |  | New excerpt |
 
 **Permission:** `edit_posts`
 
@@ -157,9 +157,9 @@ Retrieve a list of posts with optional filters.
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
-| `status` | string | — | `publish`, `draft`, `pending`, `any` (default: `any`) |
-| `numberposts` | integer | — | Number of posts (default: 10, max: 100) |
-| `search` | string | — | Keyword search |
+| `status` | string |  | `publish`, `draft`, `pending`, `any` (default: `any`) |
+| `numberposts` | integer |  | Number of posts (default: 10, max: 100) |
+| `search` | string |  | Keyword search |
 
 **Permission:** `edit_posts`
 
@@ -171,7 +171,7 @@ Move a post to trash or permanently delete it.
 | Parameter | Type | Required | Description |
 |---|---|---|---|
 | `id` | integer | ✅ | Post ID to delete |
-| `force` | boolean | — | `true` = permanent delete, `false` = move to trash (default: `false`) |
+| `force` | boolean |  | `true` = permanent delete, `false` = move to trash (default: `false`) |
 
 **Permission:** `delete_posts`
 
@@ -196,15 +196,15 @@ Move a post to trash or permanently delete it.
 ## Development Notes
 
 ### Hooks Used
-- `wp_abilities_api_categories_init` — register the ability category (`content`)
-- `wp_abilities_api_init` — register all abilities
+- `wp_abilities_api_categories_init`  register the ability category (`content`)
+- `wp_abilities_api_init`  register all abilities
 
 > ⚠️ The category **must** be registered on `wp_abilities_api_categories_init`, not `wp_abilities_api_init`. Wrong hook causes a notice error even if the ability still registers.
 
 ### Security
 - All input is sanitized: `sanitize_text_field()`, `wp_kses_post()` for HTML content
 - Strict permission callbacks using standard WordPress capabilities
-- No public endpoints — all access requires WordPress authentication (Application Password)
+- No public endpoints  all access requires WordPress authentication (Application Password)
 
 ---
 
