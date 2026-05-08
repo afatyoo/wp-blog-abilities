@@ -138,7 +138,7 @@ Create a new post.
 ---
 
 ### `blog/update-post`
-Update an existing post.
+Update an existing post, including its taxonomy (tags and categories).
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
@@ -147,6 +147,12 @@ Update an existing post.
 | `content` | string |  | New content |
 | `status` | string |  | `publish`, `draft`, `pending`, `trash` |
 | `excerpt` | string |  | New excerpt |
+| `tags` | array of string |  | Tag names to set (replaces existing tags) |
+| `tag_ids` | array of integer |  | Tag IDs to set directly (replaces existing tags) |
+| `categories` | array of string |  | Category names to set (replaces existing categories) |
+| `category_ids` | array of integer |  | Category IDs to set directly (replaces existing categories) |
+
+**Returns:** `id`, `title`, `status`, `permalink`, `tags`, `categories`
 
 **Permission:** `edit_posts`
 
@@ -174,6 +180,19 @@ Move a post to trash or permanently delete it.
 | `force` | boolean |  | `true` = permanent delete, `false` = move to trash (default: `false`) |
 
 **Permission:** `delete_posts`
+
+---
+
+### `blog/get-post`
+Retrieve the full content and metadata of a single post by ID.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Post ID to retrieve |
+
+**Returns:** `id`, `title`, `content`, `excerpt`, `status`, `date`, `permalink`, `tags`, `tag_ids`, `categories`, `category_ids`
+
+**Permission:** `edit_posts`
 
 ---
 
