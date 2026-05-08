@@ -183,6 +183,34 @@ Move a post to trash or permanently delete it.
 
 ---
 
+### `blog/list-tags`
+Retrieve all post tags.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `search` | string |  | Filter tags by name (optional) |
+| `hide_empty` | boolean |  | Exclude tags with no posts (default: `false`) |
+
+**Returns:** array of `{ id, name, slug, count }`
+
+**Permission:** `edit_posts`
+
+---
+
+### `blog/list-categories`
+Retrieve all post categories.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `search` | string |  | Filter categories by name (optional) |
+| `hide_empty` | boolean |  | Exclude categories with no posts (default: `false`) |
+
+**Returns:** array of `{ id, name, slug, count, parent }`
+
+**Permission:** `edit_posts`
+
+---
+
 ### `blog/get-post`
 Retrieve the full content and metadata of a single post by ID.
 
