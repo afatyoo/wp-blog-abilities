@@ -3,8 +3,9 @@
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![WordPress](https://img.shields.io/badge/WordPress-6.8%2B-21759b)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb3)
+![Abilities](https://img.shields.io/badge/abilities-15-green)
 
-A WordPress plugin that registers blog post *abilities* for use with the [WordPress MCP Adapter](https://github.com/WordPress/mcp-adapter). AI agents like **Claude** can create, edit, list, and delete posts directly  no WP Admin needed.
+A WordPress plugin that registers blog post *abilities* for use with the [WordPress MCP Adapter](https://github.com/WordPress/mcp-adapter). AI agents like **Claude** can create, edit, schedule, and manage posts directly — no WP Admin needed.
 
 ---
 
@@ -13,12 +14,6 @@ A WordPress plugin that registers blog post *abilities* for use with the [WordPr
 ```
 Claude Code  →  mcp-adapter-execute-ability  →  WordPress REST API  →  Post saved
 ```
-
-Once the plugin is active, you can tell Claude:
-
-> *"Create a draft post titled 'My DevOps Tips' with the following content..."*
-
-And Claude will post it directly to your WordPress site.
 
 ---
 
@@ -31,22 +26,20 @@ And Claude will post it directly to your WordPress site.
 | [MCP Adapter](https://github.com/WordPress/mcp-adapter) plugin | Installed & active |
 | [Abilities API](https://github.com/WordPress/abilities-api) plugin | Only needed for WP 6.8 |
 
-> On WordPress 6.9+, the Abilities API is built-in  no extra plugin required.
+> On WordPress 6.9+, the Abilities API is built-in — no extra plugin required.
 
 ---
 
 ## Installation
 
-This plugin requires **two plugins** to be installed on your WordPress site.
-
-### Step 1  Download both ZIPs from the [Releases page](https://github.com/afatyoo/wp-blog-abilities/releases/latest)
+### Step 1 — Download both ZIPs from the [Releases page](https://github.com/afatyoo/wp-blog-abilities/releases/latest)
 
 | File | Description |
 |---|---|
-| `mcp-adapter.zip` | WordPress MCP Adapter  bridges MCP protocol to WordPress REST API |
-| `wp-blog-abilities.zip` | This plugin  registers blog post abilities for Claude |
+| `mcp-adapter.zip` | WordPress MCP Adapter — bridges MCP protocol to WordPress REST API |
+| `wp-blog-abilities.zip` | This plugin — registers blog post abilities for Claude |
 
-### Step 2  Install both plugins via WP Admin
+### Step 2 — Install both plugins via WP Admin
 
 For each ZIP file:
 1. Go to **WP Admin → Plugins → Add New → Upload Plugin**
@@ -68,17 +61,13 @@ Activate both plugins at **WP Admin → Plugins**.
 
 ## Claude Code Setup
 
-### Step 1  Create an Application Password in WordPress
+### Step 1 — Create an Application Password in WordPress
 
 1. Go to **WP Admin → Users → Profile**
-2. Scroll to the **Application Passwords** section
-3. Enter a name (e.g. `Claude MCP`) → click **Add New Application Password**
-4. **Copy the generated password**  format: `xxxx xxxx xxxx xxxx xxxx xxxx`
-   > The password is only shown once. Save it somewhere safe.
+2. Scroll to **Application Passwords** → enter a name → click **Add New Application Password**
+3. **Copy the generated password** — format: `xxxx xxxx xxxx xxxx xxxx xxxx`
 
-### Step 2  Create `.mcp.json` in your Claude Code project
-
-Create a `.mcp.json` file at the root of your Claude Code project:
+### Step 2 — Create `.mcp.json` in your Claude Code project
 
 ```json
 {
@@ -96,249 +85,33 @@ Create a `.mcp.json` file at the root of your Claude Code project:
 }
 ```
 
-Replace:
-- `yourdomain.com` → your WordPress domain
-- `your-wordpress-username` → your WordPress username
-- `xxxx xxxx xxxx xxxx xxxx xxxx` → the Application Password you just created
+### Step 3 — Restart Claude Code
 
-### Step 3  Restart Claude Code
-
-> **Important:** Changes to `.mcp.json` require a **full restart** of Claude Code (quit the app, not just `/exit`). After reopening, the MCP server will connect automatically.
-
-### Step 4  Test the Connection
-
-Ask Claude:
-
-```
-List all draft posts on my blog
-```
-
-If it works, Claude will return a list of posts from your WordPress site.
+> **Important:** Changes to `.mcp.json` require a **full restart** of Claude Code (quit the app, not just `/exit`).
 
 ---
 
-## Available Abilities
-
-All abilities are registered with `meta.mcp.public = true` so they are automatically discovered by the MCP Adapter.
-
-### `blog/create-post`
-Create a new post.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `title` | string | ✅ | Post title |
-| `content` | string | ✅ | Post content (HTML or plain text) |
-| `status` | string |  | `publish`, `draft`, `pending` (default: `draft`) |
-| `excerpt` | string |  | Short excerpt |
-| `tags` | array of string |  | Tag names |
-| `categories` | array of string |  | Category names (auto-created if they don't exist) |
-
-**Permission:** `publish_posts`
-
----
-
-### `blog/update-post`
-Update an existing post, including its taxonomy (tags and categories).
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `id` | integer | ✅ | Post ID to update |
-| `title` | string |  | New title |
-| `content` | string |  | New content |
-| `status` | string |  | `publish`, `draft`, `pending`, `trash` |
-| `excerpt` | string |  | New excerpt |
-| `tags` | array of string |  | Tag names to set (replaces existing tags) |
-| `tag_ids` | array of integer |  | Tag IDs to set directly (replaces existing tags) |
-| `categories` | array of string |  | Category names to set (replaces existing categories) |
-| `category_ids` | array of integer |  | Category IDs to set directly (replaces existing categories) |
-
-**Returns:** `id`, `title`, `status`, `permalink`, `tags`, `categories`
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/list-posts`
-Retrieve a list of posts with optional filters.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `status` | string |  | `publish`, `draft`, `pending`, `any` (default: `any`) |
-| `numberposts` | integer |  | Number of posts (default: 10, max: 100) |
-| `search` | string |  | Keyword search |
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/delete-post`
-Move a post to trash or permanently delete it.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `id` | integer | ✅ | Post ID to delete |
-| `force` | boolean |  | `true` = permanent delete, `false` = move to trash (default: `false`) |
-
-**Permission:** `delete_posts`
-
----
-
-### `blog/schedule-post`
-Schedule a post to be published automatically at a future date and time.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `id` | integer | ✅ | Post ID to schedule |
-| `date` | string | ✅ | Publish date in `YYYY-MM-DD HH:MM:SS` format (site timezone) |
-
-**Returns:** `id`, `title`, `status`, `scheduled_date`, `permalink`
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/create-tag`
-Create a new post tag.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `name` | string | ✅ | Tag name |
-| `slug` | string |  | Custom slug (auto-generated if omitted) |
-| `description` | string |  | Tag description |
-
-**Returns:** `id`, `name`, `slug`, `description`
-
-**Permission:** `manage_categories`
-
----
-
-### `blog/duplicate-post`
-Duplicate an existing post as a new draft, preserving content, tags, and categories.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `id` | integer | ✅ | Post ID to duplicate |
-| `title` | string |  | Title for the duplicate (defaults to original title + `" (Copy)"`) |
-
-**Returns:** `id`, `title`, `status`, `permalink`
-
-**Permission:** `publish_posts`
-
----
-
-### `blog/list-comments`
-Retrieve comments, optionally filtered by post or status.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `post_id` | integer |  | Filter by post ID (optional) |
-| `status` | string |  | `approve`, `hold`, `spam`, `trash`, `all` (default: `approve`) |
-| `number` | integer |  | Number of comments to return (default: 20, max: 100) |
-
-**Returns:** array of `{ id, post_id, author, email, date, content, status }`
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/create-category`
-Create a new post category.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `name` | string | ✅ | Category name |
-| `slug` | string |  | Custom slug (auto-generated if omitted) |
-| `description` | string |  | Category description |
-| `parent` | integer |  | Parent category ID for nested categories |
-
-**Returns:** `id`, `name`, `slug`, `description`, `parent`
-
-**Permission:** `manage_categories`
-
----
-
-### `blog/update-comment`
-Approve, hold, spam, or trash a comment.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `id` | integer | ✅ | Comment ID |
-| `status` | string | ✅ | `approve`, `hold`, `spam`, `trash` |
-
-**Returns:** `id`, `status`, `success`
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/upload-media`
-Upload a media file to the WordPress Media Library by fetching it from a public URL.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `url` | string | ✅ | Publicly accessible URL of the file to upload |
-| `title` | string |  | Media title |
-| `alt_text` | string |  | Alt text for images |
-| `post_id` | integer |  | Attach to this post ID |
-
-**Returns:** `id`, `url`, `filename`, `title`, `alt_text`
-
-**Permission:** `upload_files`
-
----
-
-### `blog/set-featured-image`
-Set the featured image of a post using a media attachment ID.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `post_id` | integer | ✅ | Post ID |
-| `attachment_id` | integer | ✅ | Media attachment ID to use as featured image |
-
-**Returns:** `post_id`, `attachment_id`, `featured_image_url`
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/list-tags`
-Retrieve all post tags.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `search` | string |  | Filter tags by name (optional) |
-| `hide_empty` | boolean |  | Exclude tags with no posts (default: `false`) |
-
-**Returns:** array of `{ id, name, slug, count }`
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/list-categories`
-Retrieve all post categories.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `search` | string |  | Filter categories by name (optional) |
-| `hide_empty` | boolean |  | Exclude categories with no posts (default: `false`) |
-
-**Returns:** array of `{ id, name, slug, count, parent }`
-
-**Permission:** `edit_posts`
-
----
-
-### `blog/get-post`
-Retrieve the full content and metadata of a single post by ID.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `id` | integer | ✅ | Post ID to retrieve |
-
-**Returns:** `id`, `title`, `content`, `excerpt`, `status`, `date`, `permalink`, `tags`, `tag_ids`, `categories`, `category_ids`
-
-**Permission:** `edit_posts`
+## Available Abilities (15)
+
+| Ability | Description |
+|---|---|
+| `blog/create-post` | Create a new post with title, content, status, tags, and categories |
+| `blog/update-post` | Update title, content, status, excerpt, tags, and categories of an existing post |
+| `blog/get-post` | Get full content and metadata of a post by ID, including tags and categories |
+| `blog/list-posts` | List posts with optional filters (status, keyword, count) |
+| `blog/delete-post` | Move a post to trash or permanently delete it |
+| `blog/schedule-post` | Schedule a post to publish automatically at a future date and time |
+| `blog/duplicate-post` | Duplicate a post as a new draft, preserving content, tags, and categories |
+| `blog/create-tag` | Create a new post tag |
+| `blog/create-category` | Create a new post category, with optional parent for nested categories |
+| `blog/list-tags` | List all tags with ID, name, slug, and post count |
+| `blog/list-categories` | List all categories with ID, name, slug, count, and parent |
+| `blog/upload-media` | Upload a media file to the Media Library by fetching from a public URL |
+| `blog/set-featured-image` | Set the featured image of a post using a media attachment ID |
+| `blog/list-comments` | List comments filtered by post, status, and count |
+| `blog/update-comment` | Approve, hold, spam, or trash a comment |
+
+> See [docs/abilities.md](docs/abilities.md) for full parameter reference.
 
 ---
 
@@ -347,124 +120,11 @@ Retrieve the full content and metadata of a single post by ID.
 **MCP not detected after updating `.mcp.json`**
 → Fully quit Claude Code (not just `/exit`), then reopen.
 
-**Notice error on `wp_register_ability_category`**
-→ Make sure category registration uses the `wp_abilities_api_categories_init` hook, not `wp_abilities_api_init`.
-
 **Abilities not showing up on discover**
 → Verify the MCP Adapter plugin is active. Check that `meta.mcp.public = true` is set on each ability.
 
 **Authentication failed**
-→ Use an Application Password, not your regular login password. The format includes spaces: `xxxx xxxx xxxx xxxx xxxx xxxx`.
-
----
-
-## Development Notes
-
-### Hooks Used
-- `wp_abilities_api_categories_init`  register the ability category (`content`)
-- `wp_abilities_api_init`  register all abilities
-
-> ⚠️ The category **must** be registered on `wp_abilities_api_categories_init`, not `wp_abilities_api_init`. Wrong hook causes a notice error even if the ability still registers.
-
-### Security
-- All input is sanitized: `sanitize_text_field()`, `wp_kses_post()` for HTML content
-- Strict permission callbacks using standard WordPress capabilities
-- No public endpoints  all access requires WordPress authentication (Application Password)
-
----
-
-## Using with Other MCP Clients
-
-This plugin works with any MCP client (OpenClaw, Nemoclaw, Hermes, etc.). The configuration format varies slightly by client.
-
-### OpenClaw
-
-OpenClaw reads MCP servers from a config file (usually `~/.config/openclaw/config.json` or project-local):
-
-```json
-{
-  "mcpServers": {
-    "wordpress": {
-      "command": "npx",
-      "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
-      "env": {
-        "WP_API_URL": "https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server",
-        "WP_API_USERNAME": "your-username",
-        "WP_API_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx"
-      }
-    }
-  }
-}
-```
-
-For manual input, some clients may accept `WP_API_PASSWORD` without spaces (remove spaces before entering).
-
-**Docs:** [docs.openclaw.ai/cli/mcp](https://docs.openclaw.ai/cli/mcp)
-
----
-
-### Nemoclaw
-
-Nemoclaw typically uses `nemoclaw.json` or `.nemoclawrc`:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "wordpress": {
-        "type": "stdio",
-        "command": "npx",
-        "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
-        "env": {
-          "WP_API_URL": "https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server",
-          "WP_API_USERNAME": "your-username",
-          "WP_API_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx"
-        }
-      }
-    }
-  }
-}
-```
-
-Run with `nemoclaw --config ./nemoclaw.json`.
-
----
-
-### Hermes (silicao)
-
-Hermes agent uses `hermes.config.json`:
-
-```json
-{
-  "mcp": {
-    "servers": {
-      "wordpress": {
-        "transport": "stdio",
-        "command": "npx",
-        "args": ["-y", "@automattic/mcp-wordpress-remote@latest"],
-        "env": {
-          "WP_API_URL": "https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server",
-          "WP_API_USERNAME": "your-username",
-          "WP_API_PASSWORD": "xxxx xxxx xxxx xxxx xxxx xxxx"
-        }
-      }
-    }
-  }
-}
-```
-
----
-
-### SSE/HTTP Endpoint (for custom clients)
-
-If your agent supports SSE/HTTP MCP transport, point it directly to the endpoint:
-
-```
-https://yourdomain.com/wp-json/mcp/mcp-adapter-default-server
-```
-
-Add `Authorization: Basic` header (base64 of `username:password`).  
-Note: Remove spaces from the Application Password when encoding.
+→ Use an Application Password, not your regular login password. Format includes spaces: `xxxx xxxx xxxx xxxx xxxx xxxx`.
 
 ---
 
