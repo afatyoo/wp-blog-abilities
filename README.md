@@ -183,6 +183,64 @@ Move a post to trash or permanently delete it.
 
 ---
 
+### `blog/schedule-post`
+Schedule a post to be published automatically at a future date and time.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Post ID to schedule |
+| `date` | string | ✅ | Publish date in `YYYY-MM-DD HH:MM:SS` format (site timezone) |
+
+**Returns:** `id`, `title`, `status`, `scheduled_date`, `permalink`
+
+**Permission:** `edit_posts`
+
+---
+
+### `blog/create-tag`
+Create a new post tag.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | ✅ | Tag name |
+| `slug` | string |  | Custom slug (auto-generated if omitted) |
+| `description` | string |  | Tag description |
+
+**Returns:** `id`, `name`, `slug`, `description`
+
+**Permission:** `manage_categories`
+
+---
+
+### `blog/duplicate-post`
+Duplicate an existing post as a new draft, preserving content, tags, and categories.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Post ID to duplicate |
+| `title` | string |  | Title for the duplicate (defaults to original title + `" (Copy)"`) |
+
+**Returns:** `id`, `title`, `status`, `permalink`
+
+**Permission:** `publish_posts`
+
+---
+
+### `blog/list-comments`
+Retrieve comments, optionally filtered by post or status.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `post_id` | integer |  | Filter by post ID (optional) |
+| `status` | string |  | `approve`, `hold`, `spam`, `trash`, `all` (default: `approve`) |
+| `number` | integer |  | Number of comments to return (default: 20, max: 100) |
+
+**Returns:** array of `{ id, post_id, author, email, date, content, status }`
+
+**Permission:** `edit_posts`
+
+---
+
 ### `blog/list-tags`
 Retrieve all post tags.
 
