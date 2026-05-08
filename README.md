@@ -241,6 +241,66 @@ Retrieve comments, optionally filtered by post or status.
 
 ---
 
+### `blog/create-category`
+Create a new post category.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `name` | string | ✅ | Category name |
+| `slug` | string |  | Custom slug (auto-generated if omitted) |
+| `description` | string |  | Category description |
+| `parent` | integer |  | Parent category ID for nested categories |
+
+**Returns:** `id`, `name`, `slug`, `description`, `parent`
+
+**Permission:** `manage_categories`
+
+---
+
+### `blog/update-comment`
+Approve, hold, spam, or trash a comment.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Comment ID |
+| `status` | string | ✅ | `approve`, `hold`, `spam`, `trash` |
+
+**Returns:** `id`, `status`, `success`
+
+**Permission:** `edit_posts`
+
+---
+
+### `blog/upload-media`
+Upload a media file to the WordPress Media Library by fetching it from a public URL.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `url` | string | ✅ | Publicly accessible URL of the file to upload |
+| `title` | string |  | Media title |
+| `alt_text` | string |  | Alt text for images |
+| `post_id` | integer |  | Attach to this post ID |
+
+**Returns:** `id`, `url`, `filename`, `title`, `alt_text`
+
+**Permission:** `upload_files`
+
+---
+
+### `blog/set-featured-image`
+Set the featured image of a post using a media attachment ID.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `post_id` | integer | ✅ | Post ID |
+| `attachment_id` | integer | ✅ | Media attachment ID to use as featured image |
+
+**Returns:** `post_id`, `attachment_id`, `featured_image_url`
+
+**Permission:** `edit_posts`
+
+---
+
 ### `blog/list-tags`
 Retrieve all post tags.
 
