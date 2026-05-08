@@ -244,3 +244,82 @@ Approve, hold, spam, or trash a comment.
 **Returns:** `id`, `status`, `success`
 
 **Permission:** `edit_posts`
+
+---
+
+### `blog/reply-comment`
+Post a reply to an existing comment as the current logged-in user.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `comment_id` | integer | ✅ | Parent comment ID to reply to |
+| `content` | string | ✅ | Reply content |
+
+**Returns:** `id`, `content`, `date`, `status`
+
+**Notes:** Reply is automatically approved and attributed to the authenticated WordPress user.
+
+**Permission:** `edit_posts`
+
+---
+
+## Taxonomy Management
+
+### `blog/update-tag`
+Edit the name, slug, or description of an existing tag.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Tag ID to update |
+| `name` | string | | New tag name |
+| `slug` | string | | New tag slug |
+| `description` | string | | New tag description |
+
+**Returns:** `id`, `name`, `slug`, `description`
+
+**Permission:** `manage_categories`
+
+---
+
+### `blog/update-category`
+Edit the name, slug, description, or parent of an existing category.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Category ID to update |
+| `name` | string | | New category name |
+| `slug` | string | | New category slug |
+| `description` | string | | New category description |
+| `parent` | integer | | New parent category ID (`0` to remove parent) |
+
+**Returns:** `id`, `name`, `slug`, `description`, `parent`
+
+**Permission:** `manage_categories`
+
+---
+
+### `blog/delete-tag`
+Permanently delete a tag. Posts using this tag will have it removed automatically.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Tag ID to delete |
+
+**Returns:** `success`, `message`
+
+**Permission:** `manage_categories`
+
+---
+
+### `blog/delete-category`
+Permanently delete a category. Posts will be reassigned to the default category.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `id` | integer | ✅ | Category ID to delete |
+
+**Returns:** `success`, `message`
+
+**Notes:** Cannot delete the default category.
+
+**Permission:** `manage_categories`

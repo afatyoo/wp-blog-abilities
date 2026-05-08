@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![WordPress](https://img.shields.io/badge/WordPress-6.8%2B-21759b)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-777bb3)
-![Abilities](https://img.shields.io/badge/abilities-15-green)
+![Abilities](https://img.shields.io/badge/abilities-20-green)
 
 A WordPress plugin that registers blog post *abilities* for use with the [WordPress MCP Adapter](https://github.com/WordPress/mcp-adapter). AI agents like **Claude** can create, edit, schedule, and manage posts directly — no WP Admin needed.
 
@@ -91,7 +91,7 @@ Activate both plugins at **WP Admin → Plugins**.
 
 ---
 
-## Available Abilities (15)
+## Available Abilities (20)
 
 | Ability | Description |
 |---|---|
@@ -110,6 +110,11 @@ Activate both plugins at **WP Admin → Plugins**.
 | `blog/set-featured-image` | Set the featured image of a post using a media attachment ID |
 | `blog/list-comments` | List comments filtered by post, status, and count |
 | `blog/update-comment` | Approve, hold, spam, or trash a comment |
+| `blog/reply-comment` | Post a reply to an existing comment as the current user |
+| `blog/update-tag` | Edit the name, slug, or description of an existing tag |
+| `blog/update-category` | Edit the name, slug, description, or parent of an existing category |
+| `blog/delete-tag` | Permanently delete a tag |
+| `blog/delete-category` | Permanently delete a category (posts reassigned to default) |
 
 > See [docs/abilities.md](docs/abilities.md) for full parameter reference.
 
