@@ -14,3 +14,4 @@ Thumbs.db
 # Build artifacts
 /vendor/
 /node_modules/
+wp-blog-abilities.zip
