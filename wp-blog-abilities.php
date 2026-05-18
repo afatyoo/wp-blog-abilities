@@ -8,7 +8,7 @@
  * Version: 1.6.1
  * Requires at least: 6.8
  * Requires PHP: 7.4
- * License: GPL-2.0-or-later
+ * License: MIT
  */
 
 add_action( 'wp_abilities_api_categories_init', function () {
