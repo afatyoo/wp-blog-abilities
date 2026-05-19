@@ -1,5 +1,5 @@
-=== Blog Abilities for MCP ===
-Contributors: afatyoo
+=== Postnova for MCP ===
+Contributors: afatyo
 Tags: mcp, claude, ai, blog, automation
 Requires at least: 6.8
 Tested up to: 6.9
@@ -12,14 +12,14 @@ Registers blog post abilities for use with the WordPress MCP Adapter. AI agents 
 
 == Description ==
 
-Blog Abilities for MCP registers blog post abilities for use with the WordPress MCP Adapter plugin. AI agents such as Claude can create, edit, schedule, and manage posts directly without needing WP Admin access.
+Postnova for MCP registers blog post abilities for use with the WordPress MCP Adapter plugin. AI agents such as Claude can create, edit, schedule, and manage posts directly without needing WP Admin access.
 
 Requires the MCP Adapter plugin (WordPress/mcp-adapter). On WordPress 6.9+, the Abilities API is built-in. On 6.8, install the Abilities API plugin separately.
 
 == Installation ==
 
 1. Install and activate the MCP Adapter plugin.
-2. Upload wp-blog-abilities.zip via Plugins > Add New > Upload Plugin.
+2. Upload postnova-for-mcp.zip via Plugins > Add New > Upload Plugin.
 3. Activate the plugin.
 4. Configure your MCP client to connect to your WordPress REST API endpoint.
 

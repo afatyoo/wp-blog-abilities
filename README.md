@@ -1,4 +1,4 @@
-# wp-blog-abilities
+# postnova-for-mcp
 
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![WordPress](https://img.shields.io/badge/WordPress-6.8%2B-21759b)
@@ -32,12 +32,12 @@ Claude Code  →  mcp-adapter-execute-ability  →  WordPress REST API  →  Pos
 
 ## Installation
 
-### Step 1 — Download both ZIPs from the [Releases page](https://github.com/afatyoo/wp-blog-abilities/releases/latest)
+### Step 1 — Download both ZIPs from the Releases page
 
 | File | Description |
 |---|---|
 | `mcp-adapter.zip` | WordPress MCP Adapter — bridges MCP protocol to WordPress REST API |
-| `wp-blog-abilities.zip` | This plugin — registers blog post abilities for Claude |
+| `postnova-for-mcp.zip` | This plugin — registers blog post abilities for Claude |
 
 ### Step 2 — Install both plugins via WP Admin
 
@@ -45,7 +45,7 @@ For each ZIP file:
 1. Go to **WP Admin → Plugins → Add New → Upload Plugin**
 2. Upload the ZIP → **Install Now** → **Activate**
 
-Install `mcp-adapter.zip` first, then `wp-blog-abilities.zip`.
+Install `mcp-adapter.zip` first, then `postnova-for-mcp.zip`.
 
 ### Option B: Clone via Git (VPS / SSH)
 
@@ -135,4 +135,4 @@ Activate both plugins at **WP Admin → Plugins**.
 
 ## License
 
-[MIT License](https://github.com/afatyoo/wp-blog-abilities/blob/main/LICENSE)
+[MIT License](LICENSE)

@@ -1,6 +1,6 @@
 # Ability Reference
 
-Full parameter reference for all 15 abilities in `wp-blog-abilities`.
+Full parameter reference for all 15 abilities in `postnova-for-mcp`.
 
 ---
 

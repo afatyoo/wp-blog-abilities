@@ -1,9 +1,9 @@
 <?php
 /**
- * WordPress Blog Abilities for MCP
+ * WordPress Postnova for MCP
  *
  * @wordpress-plugin
- * Plugin Name: Blog Abilities for MCP
+ * Plugin Name: Postnova for MCP
  * Description: Registers blog post abilities (create, update, list, delete) for the MCP Adapter.
  * Version: 1.6.1
  * Requires at least: 6.8
